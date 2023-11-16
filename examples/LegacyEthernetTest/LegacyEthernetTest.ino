@@ -52,9 +52,12 @@ void setup() {
   Serial.print("Resolve IP for ");
   Serial.println(serverName);
   IPAddress resolvedIP;
-  Ethernet.hostByName("www.google.com", resolvedIP);
-  Serial.print("\t");
-  Serial.println(resolvedIP);
+  if (Ethernet.hostByName("www.google.com", resolvedIP) == 1) {
+    Serial.print("\t");
+    Serial.println(resolvedIP);
+  } else {
+    Serial.println("\t...ERROR");
+  }
   Serial.println();
 
   Ethernet.end();
