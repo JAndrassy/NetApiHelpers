@@ -165,15 +165,18 @@ void testEthernet(bool dhcp) {
   printEthernetStatus();
   Serial.println();
 
-  Serial.print("Attempt to connect to port 80 on ");
+  Serial.print("Attempt to connect to port 80 or 443 on ");
   Serial.println(Ethernet.gatewayIP());
   EthernetClient client;
   if (client.connect(Ethernet.gatewayIP(), 80) == 1) {
-    Serial.println("\t...success");
+    Serial.println("\t...success (port 80)");
+    client.stop();
+  } else if (client.connect(Ethernet.gatewayIP(), 443) == 1) {
+    Serial.println("\t...success (port 443)");
+    client.stop();
   } else {
     Serial.println("\t...ERROR");
   }
-  client.stop();
   Serial.println();
 }
 
