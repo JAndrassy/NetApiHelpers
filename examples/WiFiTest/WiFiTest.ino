@@ -48,9 +48,12 @@ void setup() {
   Serial.print("Resolve IP for ");
   Serial.println(serverName);
   IPAddress resolvedIP;
-  WiFi.hostByName("www.google.com", resolvedIP);
-  Serial.print("\t");
-  Serial.println(resolvedIP);
+  if (WiFi.hostByName("www.google.com", resolvedIP) == 1) {
+    Serial.print("\t");
+    Serial.println(resolvedIP);
+  } else {
+    Serial.println("\t...ERROR");
+  }
   Serial.println();
 
   WiFi.disconnect();

@@ -30,6 +30,7 @@ void setup() {
   Serial.begin(115200);
   while (!Serial);
 
+  //  Ethernet.init(10);
   Ethernet.begin(mac);
 
   server.begin();

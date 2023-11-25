@@ -14,7 +14,7 @@ void setup() {
   Serial.println();
 
 //	Ethernet.init(10);
-//  Ethernet.begin(mac, INADDR_NONE); // force hw init for some libraries
+//  Ethernet.begin(mac, IPAddress(182, 168, 0, 177)); // force hw init for some libraries
 
   if (Ethernet.hardwareStatus() == EthernetNoHardware) {
     Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");
