@@ -5,7 +5,7 @@ A library to support Arduino Networking libraries development. It accompanies th
 
 The purpose of this library is to help networking library developers to ensure that their library can be used as a replacement of existing Arduino networking libraries and to simplify development of the Arduino Networking API in their library.
 
-_This library is still in development_
+The library is in Library Manager.
 
 ## MACAddress
 
