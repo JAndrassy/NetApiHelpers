@@ -53,7 +53,7 @@ public:
   TClient available() {
 
     acceptClients();
- 
+
     // find next client with data available
     for (uint8_t i = 0; i < SERVER_MAX_MONITORED_CLIENTS; i++) {
       if (index == SERVER_MAX_MONITORED_CLIENTS) {
@@ -117,7 +117,7 @@ public:
 
   virtual void flush() override {
 #ifndef SERVER_DONT_FLUSH_CLIENTS
-  	for (uint8_t i = 0; i < SERVER_MAX_MONITORED_CLIENTS; i++) {
+    for (uint8_t i = 0; i < SERVER_MAX_MONITORED_CLIENTS; i++) {
       if (established(connectedClients[i])) {
         connectedClients[i].flush();
       }
@@ -126,7 +126,7 @@ public:
   }
 
   void end() {
-  	SERVER_SUPER_END_FNC;
+    SERVER_SUPER_END_FNC;
     for (uint8_t i = 0; i < SERVER_MAX_MONITORED_CLIENTS; i++) {
       if (connectedClients[i]) {
         connectedClients[i].stop();
@@ -143,9 +143,9 @@ private:
       TClient& client = connectedClients[i];
       if (!client.connected() && !client.available()) {
 #ifdef SERVER_USE_SUPER_AVAILABLE
-      	client = TServer::available();
+        client = TServer::available();
 #else
-      	client = TServer::accept();
+        client = TServer::accept();
 #endif
       }
     }
@@ -155,10 +155,9 @@ private:
 #ifdef SERVER_USE_CLIENT_STATUS
   	return client.status() == ESTABLISHED;
 #else
-  	return client.connected();
+    return client.connected();
 #endif
   }
 };
-
 
 #endif

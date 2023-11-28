@@ -11,7 +11,7 @@ The library is in Library Manager.
 
 The class MACAddress works similar as the well known IPAddress class from Arduino Core.
 
-It is compatible with an uint8_t array, implements Printable, can be parsed from string and formated to string.
+It is compatible with an uint8_t array, implements Printable, can be parsed from string and formatted to string.
 
 Some existing libraries return the byte array with values in reversed order. Method reverse() reverses the order of bytes in an MACAddress object.
 
@@ -24,9 +24,9 @@ Every WiFi library should be able to run the WiFiTest and WiFiScanNetworks sketc
 
 ### Tests for the Ethernet object
 
-The LegacyEthernetTest has what would be good to have in a classic Ethernet library. But even the Ethernet library dosn't run it without modifications.
+The LegacyEthernetTest has what would be good to have in a classic Ethernet library. But even the Ethernet library doesn't run it without modifications.
 
-A future ModernEtherneTest is will test Ethernet libraries with API aligned with WiFi libraries, especially method `config` for static IP configuration.
+A future ModernEtherneTest will test Ethernet libraries with API aligned with WiFi libraries, especially method `config` for static IP configuration.
 
 ### Tests for server implementation
 
