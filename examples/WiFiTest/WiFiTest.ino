@@ -103,6 +103,7 @@ void setup() {
   testWiFi();
   if (ip != WiFi.localIP()) {
     Serial.println("ERROR: Static IP was cleared.");
+    Serial.println();
   }
   WiFi.disconnect();
 //  while (WiFi.status() == WL_CONNECTED) {
@@ -154,7 +155,6 @@ void setup() {
   Serial.println("\" with DHCP again..."); // <-------
   WiFi.setHostname("arduino");
   WiFi.config(INADDR_NONE);
-//  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE);
   testWiFi();
   if (WiFi.localIP() == INADDR_NONE) {
     Serial.println("ERROR: DHCP didn't run.");
@@ -172,11 +172,15 @@ void loop() {
 }
 
 void testWiFi() {
-  int status = WiFi.begin(ssid, pass);
-//  status = WiFi.waitForConnectResult();
-  if (status != WL_CONNECTED) {
+  WiFi.begin(ssid, pass);
+  while (WiFi.status() == WL_DISCONNECTED) {
+    Serial.print('.');
+    delay(1000);
+  }
+  Serial.println();
+  if (WiFi.status() != WL_CONNECTED) {
     Serial.println("ERROR:  STA didn't connect");
-    printWiFiStatus(status);
+    printWiFiStatus();
     while (true) {
       delay(1);
     }
@@ -215,7 +219,6 @@ void printWiFiInfo() {
 
   MACAddress bssid;
   WiFi.BSSID(bssid);
-//  bssid = WiFi.BSSID();
   Serial.print("BSSID: ");
   Serial.println(bssid);
   if (bssid[0] & 1) { // multicast bit is set
@@ -249,7 +252,8 @@ void printWiFiInfo() {
   }
 }
 
-void printWiFiStatus(int status) {
+void printWiFiStatus() {
+  int status = WiFi.status();
   const char* msg = nullptr;
   switch (status) {
     case WL_NO_SHIELD:

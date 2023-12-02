@@ -1,8 +1,4 @@
 
-// work in progress ...
-// - status() ?
-// - linkStatus ?
-
 #include <W5500lwIP.h>
 #include <NetApiHelpers.h>
 #include <MACAddress.h>
@@ -27,7 +23,25 @@ void setup() {
 
   Serial.println("Attempting to connect with DHCP ...");
   Ethernet.setHostname("arduino");
-  testEthernet(true);
+  testEthernet();
+
+  Serial.println("Checking link ...");
+  if (Ethernet.linkStatus() == LinkOFF) {
+    Serial.println("\tretry...");
+    delay(500);
+  }
+  switch (Ethernet.linkStatus()) {
+    case LinkOFF:
+      Serial.println("\tEthernet cable is not connected.");
+      break;
+    case LinkON:
+      Serial.println("\tEthernet cable is connected.");
+      break;
+    default:
+      Serial.println("\tLink state unknown.");
+      break;
+  }
+  Serial.println();
 
   IPAddress ip = Ethernet.localIP();
   IPAddress gw = Ethernet.gatewayIP();
@@ -60,7 +74,7 @@ void setup() {
       delay(1);
     }
   }
-  testEthernet(false);
+  testEthernet();
   if (ip != Ethernet.localIP()) {
     Serial.println("ERROR: Static IP was not used.");
     while (true) {
@@ -79,7 +93,7 @@ void setup() {
   Ethernet.end();
 
   Serial.println("Attempting to connect without resetting static IP configuration"); // <-------
-  testEthernet(false);
+  testEthernet();
   if (ip != Ethernet.localIP()) {
     Serial.println("ERROR: Static IP was cleared.");
   }
@@ -89,7 +103,7 @@ void setup() {
   ip[3] = 178;
   Serial.println(ip);
   Ethernet.config(ip);
-  testEthernet(false);
+  testEthernet();
   if (ip != Ethernet.localIP()) {
     Serial.println("ERROR: Static IP was not used.");
     while (true) {
@@ -123,7 +137,7 @@ void setup() {
   Serial.println("Attempting to connect with DHCP again ...");
   Ethernet.setHostname("arduino");
   Ethernet.config(INADDR_NONE);
-  testEthernet(true);
+  testEthernet();
   if (Ethernet.localIP() == INADDR_NONE) {
     Serial.println("ERROR: DHCP didn't run.");
   } else if (Ethernet.localIP() == ip) {
@@ -139,22 +153,22 @@ void setup() {
 void loop() {
 }
 
-void testEthernet(bool dhcp) {
-  bool ok = Ethernet.begin(mac);
-  if (!ok) {
-    Serial.println("ERROR:  Ethernet didn't connect");
+void testEthernet() {
+  Ethernet.begin(mac);
+  while (Ethernet.status() == WL_DISCONNECTED) {
+    Serial.print('.');
+    delay(1000);
+  }
+  Serial.println();
+  if (Ethernet.status() != WL_CONNECTED) {
+    Serial.println("ERROR:  Ethenet didn't connect");
+    printStatus();
     while (true) {
       delay(1);
     }
+  } else {
+    Serial.println("\t...success");
   }
-  if (dhcp) {
-    while (!Ethernet.connected()) {
-      Serial.print(".");
-      delay(1000);
-    }
-    Serial.println();
-  }
-  Serial.println("\t...success");
   Serial.println();
 
   printEthernetInfo();
@@ -199,5 +213,33 @@ void printEthernetInfo() {
       Serial.print("DNS server2: ");
       Serial.println(dns2);
     }
+  }
+}
+
+void printStatus() {
+  int status = Ethernet.status();
+  const char* msg = nullptr;
+  switch (status) {
+    case WL_NO_SHIELD:
+      msg = "NO_SHIELD";
+      break;
+    case WL_CONNECTED:
+      msg = "CONNECTED";
+      break;
+    case WL_CONNECT_FAILED:
+      msg = "CONNECT_FAILED";
+      break;
+    case WL_CONNECTION_LOST:
+      msg = "CONNECTION_LOST";
+      break;
+    case WL_DISCONNECTED:
+      msg = "DISCONNECTED";
+      break;
+  }
+  Serial.print("status: ");
+  if (msg != nullptr) {
+    Serial.println(msg);
+  } else {
+    Serial.println(status);
   }
 }

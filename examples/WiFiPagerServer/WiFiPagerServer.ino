@@ -46,14 +46,12 @@ void setup() {
   Serial.print("Attempting to connect to SSID \"");
   Serial.print(ssid);
   Serial.println("\" with DHCP ...");
-  int status = WiFi.begin(ssid, pass);
-//  status = WiFi.waitForConnectResult();
-  if (status != WL_CONNECTED) {
-    Serial.println("STA didn't connect");
-    while (true) {
-      delay(1);
-    }
+  WiFi.begin(ssid, pass);
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print('.');
+    delay(1000);
   }
+  Serial.println();
 
   server.begin();
 

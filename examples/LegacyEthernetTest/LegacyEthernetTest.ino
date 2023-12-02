@@ -14,7 +14,9 @@ void setup() {
   Serial.println();
 
 //	Ethernet.init(10);
-//  Ethernet.begin(mac, IPAddress(182, 168, 0, 177)); // force hw init for some libraries
+
+  Serial.println("Attempting to connect with DHCP ...");
+  testEthernet(true);
 
   if (Ethernet.hardwareStatus() == EthernetNoHardware) {
     Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");
@@ -39,9 +41,6 @@ void setup() {
       break;
   }
   Serial.println();
-
-  Serial.println("Attempting to connect with DHCP ...");
-  testEthernet(true);
 
   IPAddress ip = Ethernet.localIP();
   IPAddress gw = Ethernet.gatewayIP();
@@ -145,6 +144,7 @@ void setup() {
 }
 
 void loop() {
+  Ethernet.maintain();
 }
 
 void testEthernet(bool dhcp) {
