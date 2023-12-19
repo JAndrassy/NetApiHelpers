@@ -21,12 +21,11 @@ Some existing libraries return the byte array with values in reversed order. Met
 
 Every WiFi library should be able to run the WiFiTest and WiFiScanNetworks sketches with no or minimal modifications.
 
-
 ### Tests for the Ethernet object
 
-The LegacyEthernetTest has what would be good to have in a classic Ethernet library. But even the Ethernet library doesn't run it without modifications.
+The LegacyEthernetTest has what would be good to have in a classic Ethernet library.
 
-A future ModernEtherneTest will test Ethernet libraries with API aligned with WiFi libraries, especially method `config` for static IP configuration.
+ModernEtherneTest is for Ethernet libraries with API aligned with WiFi libraries, especially method `config` for static IP configuration.
 
 ### Tests for server implementation
 
