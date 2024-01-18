@@ -57,9 +57,6 @@ void setup() {
   Serial.println();
 
   WiFi.disconnect();
-//  while (WiFi.status() == WL_CONNECTED) {
-//    delay(5);
-//  }
 
 //  IPAddress ip(192, 168, 1, 177);
 //  IPAddress gw(192, 168, 1, 1);
@@ -95,9 +92,6 @@ void setup() {
   }
 
   WiFi.disconnect();
-//  while (WiFi.status() == WL_CONNECTED) {
-//    delay(5);
-//  }
 
   Serial.println("Attempting to connect without resetting static IP configuration"); // <-------
   testWiFi();
@@ -106,9 +100,6 @@ void setup() {
     Serial.println();
   }
   WiFi.disconnect();
-//  while (WiFi.status() == WL_CONNECTED) {
-//    delay(5);
-//  }
 
   Serial.print("Attempting to connect to SSID \"");
   Serial.print(ssid);
@@ -146,9 +137,6 @@ void setup() {
   Serial.println();
 
   WiFi.disconnect();
-//  while (WiFi.status() == WL_CONNECTED) {
-//    delay(5);
-//  }
 
   Serial.print("Attempting to connect to SSID \"");
   Serial.print(ssid);
@@ -173,7 +161,7 @@ void loop() {
 
 void testWiFi() {
   WiFi.begin(ssid, pass);
-  while (WiFi.status() == WL_DISCONNECTED) {
+  while (WiFi.status() == WL_DISCONNECTED || WiFi.status() == WL_IDLE_STATUS) {
     Serial.print('.');
     delay(1000);
   }
