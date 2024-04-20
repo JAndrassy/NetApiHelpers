@@ -23,8 +23,10 @@
 
 #if defined(ESP32)
 #define SERVER_CTOR_WITH_IP
+#if (ESP_ARDUINO_VERSION_MAJOR < 3)
 #define SERVER_DONT_INHERIT_FROM_PRINT
 #define SERVER_DONT_FLUSH_CLIENTS
+#endif
 
 #elif defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_ARCH_MBED)
 #define SERVER_SUPER_END_FNC WiFiServer::stop()
